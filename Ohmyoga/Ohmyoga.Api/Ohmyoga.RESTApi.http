@@ -1,0 +1,6 @@
+@Ohmyoga.RESTApi_HostAddress = http://localhost:5067
+
+GET {{Ohmyoga.RESTApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
