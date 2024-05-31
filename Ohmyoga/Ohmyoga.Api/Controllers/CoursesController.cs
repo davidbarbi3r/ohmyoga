@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using Ohmyoga.Api;
 using Ohmyoga.Api.Mapping;
 using Ohmyoga.Application.Repositories;
 using Ohmyoga.Contracts.Requests;
 
-namespace Ohmyoga.Api.Controllers;
+namespace Ohmyoga.RESTApi.Controllers;
 
 [ApiController]
 public class CoursesController : ControllerBase

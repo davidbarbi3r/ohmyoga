@@ -44,7 +44,8 @@ public static class ContractMapping
             Date = course.Date,
             Duration = course.Duration,
             Capacity = course.Capacity,
-            CourseType = course.CourseType
+            CourseType = course.CourseType,
+            Slug = course.Slug
         };
     }
 
