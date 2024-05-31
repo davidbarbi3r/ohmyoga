@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Ohmyoga.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e6a5a62df0e6e37b018919d64b59538d4fc4ddf1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f45b7b0cf9d8d26d8e4c738124c935c2de8474f1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Ohmyoga.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Ohmyoga.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
