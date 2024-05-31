@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Ohmyoga.Api;
 using Ohmyoga.Api.Mapping;
 using Ohmyoga.Application.Repositories;
 using Ohmyoga.Contracts.Requests;
 
-namespace Ohmyoga.RESTApi.Controllers;
+namespace Ohmyoga.Api.Controllers;
 
 [ApiController]
 public class CoursesController : ControllerBase
@@ -25,19 +24,21 @@ public class CoursesController : ControllerBase
         // location header is not programaticly  given in this case
         // return Created($"/{ApiEndpoints.Courses.Create}/{course.Id}", course.MapToResponse());
         // with location header automatic 
-        return CreatedAtAction(nameof(Get), new { id = course.Id }, course.MapToResponse());
+        // created at endpoint get
+        return CreatedAtAction(nameof(Get), new { idOrSlug = course.Id }, course.MapToResponse());
     }
 
     [HttpGet(ApiEndpoints.Courses.Get)]
-    public async Task<IActionResult> Get([FromRoute] Guid id)
+    public async Task<IActionResult> Get([FromRoute] string idOrSlug)
     {
-        var course = await _courseRepository.GetByIdAsync(id);
-        if (course is null)
-        {
-            return NotFound();
-        }
-
-        return Ok(course.MapToResponse());
+        var course = Guid.TryParse(idOrSlug, out var id) 
+            ? await _courseRepository.GetByIdAsync(id)
+            : await _courseRepository.GetBySlugAsync(idOrSlug);
+            if (course is null)
+            {
+                return NotFound();
+            }
+            return Ok(course.MapToResponse());       
     }
 
     [HttpGet(ApiEndpoints.Courses.GetAll)]
