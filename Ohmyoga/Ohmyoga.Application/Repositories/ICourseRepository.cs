@@ -8,6 +8,8 @@ public interface ICourseRepository
 
     Task<Course?> GetByIdAsync(Guid id);
 
+    Task<Course?> GetBySlugAsync(string slug);
+
     Task<IEnumerable<Course>> GetAllAsync();
 
     Task<bool> UpdateAsync(Course course);

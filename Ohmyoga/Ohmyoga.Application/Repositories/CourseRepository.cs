@@ -17,6 +17,11 @@ public class CourseRepository : ICourseRepository
         return Task.FromResult(course);
     }
 
+    public Task<Course?> GetBySlugAsync(string slug)
+    {
+        var course = _courses.SingleOrDefault(course => course.Slug == slug);
+        return Task.FromResult(course);    }
+
     public Task<IEnumerable<Course>> GetAllAsync()
     {
         return Task.FromResult(_courses.AsEnumerable());
