@@ -25,5 +25,12 @@ public class DbInitializer
                                           duration integer not null
                                       );
                                       """);
+
+        await connection.ExecuteAsync("""
+                                      create table if not exists courses_type(
+                                          courseTypeId UUID references courses (Id),
+                                          name TEXT not null
+                                      );
+                                      """);
     }
 }
