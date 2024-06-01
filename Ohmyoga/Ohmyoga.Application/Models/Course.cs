@@ -22,7 +22,8 @@ public partial class Course
     {
         var sluggedTitle = SlugRegex().Replace(Title, string.Empty)
                 .ToLower().Replace(" ", "-");
-        return $"{sluggedTitle}-{Date}";
+        var sluggedDate = Date.Replace("/", "-");
+        return $"{sluggedTitle}-{sluggedDate}";
     }
     // if this regex takes more than 5ms that means smb is trying sth dodgy
     [GeneratedRegex("[^0-9A-Za-z _-]", RegexOptions.NonBacktracking, 5)]

@@ -63,4 +63,17 @@ public class CoursesController : ControllerBase
         var response = course.MapToResponse();
         return Ok(response);
     }
+
+    [HttpDelete(ApiEndpoints.Courses.Delete)]
+    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    {
+        var deleted = await _courseRepository.DeleteByIdAsync(id);
+
+        if (!deleted)
+        {
+            return NotFound();
+        }
+
+        return Ok();
+    }
 }
