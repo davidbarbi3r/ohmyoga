@@ -15,4 +15,7 @@ public interface ICourseRepository
     Task<bool> UpdateAsync(Course course);
 
     Task<bool> DeleteByIdAsync(Guid id);
+    
+    Task<bool> ExistsByIdAsync(Guid id);
+
 }
