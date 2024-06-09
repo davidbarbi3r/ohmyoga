@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Ohmyoga.Api.Mapping;
 using Ohmyoga.Application.Repositories;
+using Ohmyoga.Application.Services;
 using Ohmyoga.Contracts.Requests;
 
 namespace Ohmyoga.Api.Controllers;
@@ -8,18 +9,18 @@ namespace Ohmyoga.Api.Controllers;
 [ApiController]
 public class CoursesController : ControllerBase
 {
-    private readonly ICourseRepository _courseRepository;
+    private readonly ICourseService _courseService;
 
-    public CoursesController(ICourseRepository courseRepository)
+    public CoursesController(ICourseService courseService)
     {
-        _courseRepository = courseRepository;
+        _courseService = courseService;
     }
 
     [HttpPost(ApiEndpoints.Courses.Create)]
     public async Task<IActionResult> Create([FromBody] CreateCourseRequest request)
     {
         var course = request.MapToCourse();
-        await _courseRepository.CreateAsync(course);
+        await _courseService.CreateAsync(course);
         // that's a mistake, would better map course to a new CourseReponse object and return that
         // location header is not programaticly  given in this case
         // return Created($"/{ApiEndpoints.Courses.Create}/{course.Id}", course.MapToResponse());
@@ -32,8 +33,8 @@ public class CoursesController : ControllerBase
     public async Task<IActionResult> Get([FromRoute] string idOrSlug)
     {
         var course = Guid.TryParse(idOrSlug, out var id) 
-            ? await _courseRepository.GetByIdAsync(id)
-            : await _courseRepository.GetBySlugAsync(idOrSlug);
+            ? await _courseService.GetByIdAsync(id)
+            : await _courseService.GetBySlugAsync(idOrSlug);
             if (course is null)
             {
                 return NotFound();
@@ -44,7 +45,7 @@ public class CoursesController : ControllerBase
     [HttpGet(ApiEndpoints.Courses.GetAll)]
     public async Task<IActionResult> GetAll()
     {
-        var courses = await _courseRepository.GetAllAsync();
+        var courses = await _courseService.GetAllAsync();
         var coursesResponse = courses.MapToResponse();
         return Ok(coursesResponse);
     }
@@ -53,21 +54,21 @@ public class CoursesController : ControllerBase
     public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateCourseRequest request)
     {
         var course = request.MapToCourse(id);
-        var updated = await _courseRepository.UpdateAsync(course);
+        var updatedCourse = await _courseService.UpdateAsync(course);
 
-        if (!updated)
+        if (updatedCourse is null)
         {
             return NotFound();
         }
 
-        var response = course.MapToResponse();
+        var response = updatedCourse.MapToResponse();
         return Ok(response);
     }
 
     [HttpDelete(ApiEndpoints.Courses.Delete)]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
-        var deleted = await _courseRepository.DeleteByIdAsync(id);
+        var deleted = await _courseService.DeleteByIdAsync(id);
 
         if (!deleted)
         {

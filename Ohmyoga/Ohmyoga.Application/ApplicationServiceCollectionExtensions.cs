@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Ohmyoga.Application.Database;
 using Ohmyoga.Application.Repositories;
+using Ohmyoga.Application.Services;
 
 namespace Ohmyoga.Application;
 
@@ -10,6 +11,7 @@ public static class ApplicationServiceCollectionExtensions
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddSingleton<ICourseRepository, CourseRepository>();
+        services.AddSingleton<ICourseService, CourseService>();
         return services;
     }
 
